@@ -84,6 +84,21 @@
             display: none;
         }
 
+        .language-btn {
+            background-color: #004085;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .language-btn:hover {
+            background-color: #003366;
+        }
+
         /* استجابة للهاتف فقط */
         @media (max-width: 600px) {
             .container {
@@ -107,10 +122,11 @@
 </head>
 <body>
     <div class="container">
+        <button class="language-btn" onclick="changeLanguage()">Change Language</button>
         <img src="https://assets.onecompiler.app/42r523uca/42vf4yhs4/JO.png" alt="شعار" class="logo">
-        <h1>نموذج تقديم اقتراح</h1>
+        <h1 id="formTitle">نموذج تقديم اقتراح</h1>
         <form id="suggestionForm">
-            <label for="organization">اسم الجهة الحكومية:</label>
+            <label id="organizationLabel" for="organization">اسم الجهة الحكومية:</label>
             <select id="organization" name="organization" required>
                 <option value="وزارة الطاقة والثروة المعدنية">وزارة الطاقة والثروة المعدنية</option>
                 <option value="هيئة تنظيم قطاع الطاقة والمعادن (EMRC)">هيئة تنظيم قطاع الطاقة والمعادن (EMRC)</option>
@@ -118,27 +134,57 @@
                 <option value="صندوق تشجيع الطاقة المتجددة وترشيد الطاقة (JREEEF)">صندوق تشجيع الطاقة المتجددة وترشيد الطاقة (JREEEF)</option>
             </select>
             
-            <label for="name">اسمك الكامل:</label>
+            <label for="name" id="nameLabel">اسمك الكامل:</label>
             <input type="text" id="name" name="name" required>
             
-            <label for="nationalID">الرقم الوطني:</label>
+            <label for="nationalID" id="nationalIDLabel">الرقم الوطني:</label>
             <input type="text" id="nationalID" name="nationalID" required>
             
-            <label for="phone">رقم الهاتف:</label>
+            <label for="phone" id="phoneLabel">رقم الهاتف:</label>
             <input type="tel" id="phone" name="phone" required>
             
-            <label for="email">البريد الإلكتروني:</label>
+            <label for="email" id="emailLabel">البريد الإلكتروني:</label>
             <input type="email" id="email" name="email" required>
             
-            <label for="suggestion">تفاصيل الاقتراح:</label>
+            <label for="suggestion" id="suggestionLabel">تفاصيل الاقتراح:</label>
             <textarea id="suggestion" name="suggestion" rows="4" required></textarea>
             
-            <button type="button" onclick="sendToWhatsApp()">إرسال</button>
+            <button type="button" onclick="sendToWhatsApp()" id="submitBtn">إرسال</button>
         </form>
         <div id="statusMessage">تم إرسال الاقتراح بنجاح!</div>
     </div>
 
     <script>
+        let isArabic = true;
+
+        function changeLanguage() {
+            isArabic = !isArabic;
+
+            if (isArabic) {
+                document.documentElement.lang = "ar";
+                document.body.style.direction = "rtl";
+                document.getElementById('formTitle').textContent = "نموذج تقديم اقتراح";
+                document.getElementById('organizationLabel').textContent = "اسم الجهة الحكومية:";
+                document.getElementById('nameLabel').textContent = "اسمك الكامل:";
+                document.getElementById('nationalIDLabel').textContent = "الرقم الوطني:";
+                document.getElementById('phoneLabel').textContent = "رقم الهاتف:";
+                document.getElementById('emailLabel').textContent = "البريد الإلكتروني:";
+                document.getElementById('suggestionLabel').textContent = "تفاصيل الاقتراح:";
+                document.getElementById('submitBtn').textContent = "إرسال";
+            } else {
+                document.documentElement.lang = "en";
+                document.body.style.direction = "ltr";
+                document.getElementById('formTitle').textContent = "Suggestion Submission Form";
+                document.getElementById('organizationLabel').textContent = "Government Entity Name:";
+                document.getElementById('nameLabel').textContent = "Your Full Name:";
+                document.getElementById('nationalIDLabel').textContent = "National ID:";
+                document.getElementById('phoneLabel').textContent = "Phone Number:";
+                document.getElementById('emailLabel').textContent = "Email Address:";
+                document.getElementById('suggestionLabel').textContent = "Suggestion Details:";
+                document.getElementById('submitBtn').textContent = "Submit";
+            }
+        }
+
         function sendToWhatsApp() {
             const name = document.getElementById('name').value;
             const nationalID = document.getElementById('nationalID').value;
@@ -148,11 +194,11 @@
             const organization = document.getElementById('organization').value;
 
             if (!name || !nationalID || !phone || !email || !suggestion) {
-                alert("يرجى ملء جميع الحقول.");
+                alert(isArabic ? "يرجى ملء جميع الحقول." : "Please fill in all fields.");
                 return;
             }
 
-            const message = `
+            const message = isArabic ? `
                 السادة/ ${organization} المحترمين،
 
                 تحية طيبة وبعد،
@@ -168,6 +214,22 @@
                 - البريد الإلكتروني: ${email}
 
                 وتفضلوا بقبول فائق الاحترام والتقدير.
+
+                ${name}
+            ` : `
+                Dear ${organization},
+
+                I would like to submit the following suggestion:
+
+                Suggestion Details: ${suggestion}.
+
+                My details are as follows:
+                - Full Name: ${name}
+                - National ID: ${nationalID}
+                - Phone Number: ${phone}
+                - Email Address: ${email}
+
+                Kind regards,
 
                 ${name}
             `;
