@@ -17,8 +17,9 @@
         }
 
         .container {
-            max-width: 90%;
-            padding: 20px;
+            width: 100%;
+            max-width: 480px; /* تم تقييد العرض للأجهزة المحمولة */
+            padding: 15px;
             background: #fff;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
@@ -29,13 +30,13 @@
         .logo {
             display: block;
             margin: 0 auto 20px;
-            width: 100px;
+            width: 80px;
         }
 
         h1 {
             color: #004085;
             margin-bottom: 20px;
-            font-size: 24px;
+            font-size: 20px;
         }
 
         label {
@@ -50,7 +51,7 @@
             padding: 12px;
             border: 1px solid #ccc;
             border-radius: 5px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             font-size: 14px;
             box-sizing: border-box;
             transition: border-color 0.3s ease;
@@ -83,18 +84,19 @@
             display: none;
         }
 
-        /* استجابة للهواتف فقط */
+        /* استجابة للهاتف فقط */
         @media (max-width: 600px) {
             .container {
-                padding: 15px;
+                padding: 10px;
             }
 
             h1 {
-                font-size: 20px;
+                font-size: 18px;
             }
 
             input, select, textarea, button {
                 font-size: 16px;
+                padding: 10px;
             }
 
             button {
