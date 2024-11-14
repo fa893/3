@@ -1,4 +1,3 @@
-
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -82,6 +81,25 @@
             font-size: 16px;
             color: #28a745;
             display: none;
+        }
+
+        /* استجابة للهواتف فقط */
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+
+            input, select, textarea, button {
+                font-size: 16px;
+            }
+
+            button {
+                font-size: 18px;
+            }
         }
     </style>
 </head>
